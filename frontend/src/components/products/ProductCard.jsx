@@ -19,7 +19,7 @@ const ProductCard = ({id }) => {
             <div className="px-1 py-2 w-full flex-col space-y-3 md:p-2 md:space-y-0 ">
                 <div className="h-14 md:h-12 px-1 font-[arial] overflow-auto text-[15px] ">{product?.product_name}</div>
                 <div className='p-1 space-x-2'>
-                    <span className='line-through text-sm font-mono'>MRP:{product?.product_mrp}</span>
+                    <span className='line-through text-xs font-[arial]'>MRP:{product?.product_mrp}</span>
                     <span className=' font-[arial] text-base'>&#x20B9;{product?.product_price}</span>
                 </div>
                 <div className="px-2 md:px-1">

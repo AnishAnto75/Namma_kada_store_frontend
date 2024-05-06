@@ -1,20 +1,12 @@
 import { useSelector } from 'react-redux'
-import { selectUser } from '../../slices/UserSlice'
-import { selectAllCartProducts, selectTotalMrp, selectTotalSellingPrice , selectCartIdAndNo, selectTotalNoOfProduts } from '../../slices/CartSlice.js'
+import { selectCartIdAndNo } from '../../slices/CartSlice.js'
 
 import ProductCard from '../../components/products/ProductCard'
+import CartAmountFeed from '../../components/products/CartAmountFeed.jsx'
 
 const CartPage = () => {
 
     const cartProductsIdObject = useSelector(selectCartIdAndNo)
-
-    const totalMrp = useSelector(selectTotalMrp)
-    const totalSellingPrice = useSelector(selectTotalSellingPrice)
-    const totalNoOfProduct = useSelector(selectTotalNoOfProduts)
-
-    const cartProducts = useSelector(selectAllCartProducts)
-
-    // cart product card render
     
     // no product in cart 
     if(!cartProductsIdObject?.length){
@@ -27,26 +19,23 @@ const CartPage = () => {
     const cartProductRender = cartProductsIdObject?.map((product => <ProductCard key={product.product_id} id={product.product_id}/>)) 
 
     return (
-        <div className='flex m-5 gap-5'>
-            <div className='container md:w-2/3 w-full bg-white '>
-                <div className='h-10 flex hero justify-center border-2 border-amber-500 text-2xl shadow-lg font-[arial] text-amber-600'>
-                    Cart
+        <div className='flex flex-col md:flex-row w-full items-center md:items-start justify-center p-1 md:p-5 gap-5 '>
+            <div className='md:w-3/5 w-full flex flex-col'>
+
+                <div className='h-10 flex hero justify-center text-2xl shadow-md font-[arial] text-gray-600 bg-white sticky top-0 '>
+                    My Cart
                 </div>
                 <div className='h-1'/>
-                <div className='flex flex-wrap p-5 gap-5 justify-center border-2 border-amber-500'>
+                <div className='flex flex-wrap p-1 w-full gap-1 justify-center h-3/5 shadow-md overflow-auto'>
                     {cartProductRender}
+                </div>
+                <div className='bg-white w-full p-1 sticky bottom-0 shadow-md '>
+                    <button className='btn w-full bg-amber-400 hover:bg-amber-500 text-white border-none'>Place Order</button>
                 </div>
             </div>
 
-            <div className='h-full flex flex-col items-end p-5 px-10 bg-green-200 border-2 border-amber-500'>
-                <span className='flex flex-col '>
-                    <li className='list-none'>
-                    total mrp : {totalMrp}
-                    </li>
-                    <li className='list-none'>
-                    price : {totalSellingPrice}
-                    </li>
-                </span>
+            <div className='container w-full md:w-1/4 p-5 shadow-md sticky top-2 rounded-md'>
+                <CartAmountFeed />
             </div>
         </div>
     )

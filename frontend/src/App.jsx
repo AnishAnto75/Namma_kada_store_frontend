@@ -41,6 +41,7 @@ function App() {
             handleRef.current = false
         }
         if(userCart){
+            console.log('userCart appjsx')
             dispatch(addCartProduct({userCart , products}))
         }
     },[isAuthenticated , ProductStatus , userCart])

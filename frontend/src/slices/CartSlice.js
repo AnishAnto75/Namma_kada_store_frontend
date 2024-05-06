@@ -6,6 +6,9 @@ const initialState = {
     productIdAndNo : [],
     totalMrp : 0,
     totalSellingPrice : 0,
+    discount : 0,
+    deliveryCharges : 0,
+    totalAmount : 0,
     totalNoOfProduct : 0
 }
 
@@ -36,6 +39,9 @@ const cartSlice = createSlice({
             state.productIdAndNo = userCart
             state.totalMrp = totalMrp
             state.totalSellingPrice = totalSellingPrice
+            state.discount = state.totalMrp-state.totalSellingPrice
+            state.deliveryCharges = state.totalSellingPrice <= 500 ? 120 : 0
+            state.totalAmount = state.deliveryCharges+state.totalSellingPrice
             state.totalNoOfProduct = userCart.length
         }
     },
@@ -48,6 +54,9 @@ export const selectCartProductIds = (state)=> state.cart.product_ids
 export const selectCartIdAndNo = (state)=> state.cart.productIdAndNo
 export const selectTotalMrp = (state)=> state.cart.totalMrp
 export const selectTotalSellingPrice = (state)=> state.cart.totalSellingPrice
+export const selectCartDiscount = (state)=> state.cart.discount
+export const selectCartDeliveryCharges = (state)=> state.cart.deliveryCharges
+export const selectCartTotalAmount = (state)=> state.cart.totalAmount
 export const selectTotalNoOfProduts = (state)=> state.cart.totalNoOfProduct
 
 export default cartSlice.reducer

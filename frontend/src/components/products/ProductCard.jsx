@@ -9,7 +9,7 @@ const ProductCard = ({id }) => {
     const PRODUCT_IMAGE_URL = `${import.meta.env.VITE_PRODUCT_IMAGE_URL}/${product?.product_photos}`
 
   return (
-    <div className="border-2 rounded-lg shadow-lg h-44 w-full md:h-72 md:w-56 ">
+    <div className="rounded-lg shadow-lg h-44 w-full md:h-72 md:w-56 bg-white ">
         <div className="flex md:block">
             <div className="h-44 w-36 md:h-36 min-w-36 md:min-w-full md:border-r-0">
                 <Link to={`/products/${id}`}>

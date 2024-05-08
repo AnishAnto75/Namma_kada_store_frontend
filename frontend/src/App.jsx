@@ -20,6 +20,7 @@ import AddNewProductPage from './pages/adminpages/products/AddNewProductPage'
 import AdminProductViewPage from './pages/adminpages/products/AdminProductViewPage'
 import CartPage from './pages/products/CartPage'
 import { addCartProduct } from './slices/CartSlice.js'
+import CheckoutPage from './pages/CheckoutPage.jsx'
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
             <Route path='/' element={<MainLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path='user-profile' element={<UserProfilePage />}/>
+                <Route path='checkout' element={<CheckoutPage />}/>
 
                 <Route path='/products'>
                     <Route index element={<AllProducts />} />

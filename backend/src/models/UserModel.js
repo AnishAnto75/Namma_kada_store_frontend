@@ -1,25 +1,30 @@
 import mongoose from "mongoose";
 
 const addressSchema = mongoose.Schema({
-        city :{
-            type : String,
-            trim : true
-        },
-        pincode : {
-            type : Number,
-            trim : true
-        },
-        district : {
-            type : String,
-            trim : true
+    city :{
+        type : String,
+        trim : true
     },
-        address : {
-            type : String,
-            trim : true
-        }
-}) 
+    pincode : {
+        type : Number,
+        trim : true
+    },
+    district : {
+        type : String,
+        trim : true
+    },
+    address : {
+        type : String,
+        trim : true
+    }
+})
 
 const userSchema = mongoose.Schema({
+    user_type :{
+        type : String,
+        enum : ['user','admin'],
+        default: 'user'
+    },
     email : {
         type : String,
         required :true,

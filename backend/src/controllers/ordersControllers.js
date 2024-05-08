@@ -3,9 +3,10 @@ import User from "../models/UserModel.js"
 
 export const createOrders = async(req , res)=>{
 
-    const {user_id , total_mrp , total_price , extra_discounts , delivery_charges , total_selling_price , product_details } = req.body
+    const {user_id , total_mrp , total_price , delivery_charges , total_selling_price , product_details , payment_method , delivery_address , delivery_details } = req.body
 
-    if(!user_id || !total_mrp || !total_price || !extra_discounts || !delivery_charges || !total_selling_price || !product_details){
+    if(!user_id || !total_mrp || !total_price || !delivery_charges || !total_selling_price || !product_details || !payment_method || !delivery_address || !delivery_details){
+
         return res.status(404).send({message : "required all fields"})
     }
 
@@ -16,7 +17,7 @@ export const createOrders = async(req , res)=>{
             return res.status(404).send({error : 'user not found' })
         }
 
-        const newOrder = new Orders({user_id , total_mrp , total_price , extra_discounts , delivery_charges , total_selling_price , product_details})
+        const newOrder = new Orders(req.body)
         await newOrder.save()
     
         user.orderDetails.orders.push(newOrder._id) 

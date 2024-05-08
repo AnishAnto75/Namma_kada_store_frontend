@@ -14,10 +14,6 @@ const ordersSchema = mongoose.Schema({
         type : Number,
         required : true
     },
-    extra_discounts:{
-        type : Number,
-        required:true
-    },
     delivery_charges : {
         type : Number,
         required : true
@@ -26,6 +22,46 @@ const ordersSchema = mongoose.Schema({
         type : Number,
         required : true
     },
+    payment_method : {
+        type : String ,
+        required : true
+    },
+    delivery_address :{
+        city : {
+            type : String,
+            required : true
+        },
+        pincode : {
+            type : Number ,
+            required : true
+        },
+        address : {
+            type : String,
+            required : true
+        },
+        district : {
+            type : String,
+            required : true
+        },
+        phone_number : {
+            type : Number,
+            required : true
+        }
+    },
+    delivery_details : [{
+        order_status : {
+            type : String,
+            enum : {
+                values : ['pending' , 'order_confirmed' , 'out_for_delivery' , 'delivered' , 'canceled' ],
+                message:  '{VALUE} is not supported' , 
+            },
+            default: 'pending'
+        },
+        date : {
+            type : Date,
+            required : true
+        }
+    }],
     product_details :[{
         product_id :{
             type : String , 
@@ -56,7 +92,13 @@ const ordersSchema = mongoose.Schema({
             type: Number,
             required : true
         },
-    },]
+    }],
+    order_rating : {
+        type : Number
+    },
+    order_review:{
+        type : String
+    },
 },{
     timestamps : true
 })

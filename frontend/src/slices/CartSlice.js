@@ -34,7 +34,15 @@ const cartSlice = createSlice({
                 totalSellingPrice = totalSellingPrice + product.product_price * no_of_product.no_of_product
             })
 
-            state.products = cartProduct
+            const productNo = cartProduct?.map(product => {
+                const no_of_product = userCart?.find((userCart) => userCart.product_id == product._id )
+                const products = [...Object.entries(product) ,  ['no_of_product' , no_of_product.no_of_product ]]
+                return products
+            })
+
+            const allProduct = productNo.map((products) => Object.fromEntries(products))
+
+            state.products = allProduct
             state.product_ids = cartProductsIds
             state.productIdAndNo = userCart
             state.totalMrp = totalMrp
@@ -58,5 +66,15 @@ export const selectCartDiscount = (state)=> state.cart.discount
 export const selectCartDeliveryCharges = (state)=> state.cart.deliveryCharges
 export const selectCartTotalAmount = (state)=> state.cart.totalAmount
 export const selectTotalNoOfProduts = (state)=> state.cart.totalNoOfProduct
+export const selectTotalMrpOfProduct = (state , id) =>{
+    const user = state.cart.products?.find(product =>  product._id == id)
+    const mrp = user?.product_mrp * user?.no_of_product 
+    return mrp
+}
+export const selectTotalPriceOfProduct = (state , id) =>{
+    const user = state.cart.products?.find(product =>  product._id == id)
+    const price = user.product_price * user.no_of_product 
+    return price
+}
 
 export default cartSlice.reducer

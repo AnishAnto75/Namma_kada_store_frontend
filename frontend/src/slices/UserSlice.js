@@ -1,7 +1,8 @@
-import {createAsyncThunk, createEntityAdapter, createSelector, createSlice} from '@reduxjs/toolkit'
+import { useAuth0 } from '@auth0/auth0-react'
+import {createAsyncThunk, createEntityAdapter, createSlice} from '@reduxjs/toolkit'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { useSelector } from 'react-redux'
+
 
 const USER_URL = import.meta.env.VITE_USER_URL
 const CART_URL = `${import.meta.env.VITE_BACKEND_URL}api/cart`
@@ -23,6 +24,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser' , async(auth0Id)=>{
 })
 
 export const addNewUser = createAsyncThunk('user/addNewUser' , async(userData)=>{
+
     const res = await axios.post(USER_URL , userData).catch((error)=>{
         throw new Error(error.response.data.message)
     })
@@ -66,7 +68,7 @@ const userSlice = createSlice({
         })
         .addCase(fetchUser.fulfilled , (state , action)=>{
             state.status = 'suceeded'
-            console.log('fetchUser payload :',action.payload.data)
+            console.log('fetchUser payload :',action.payload)
             userAdapter.setOne(state , action.payload.data)             
         })
 
@@ -76,8 +78,8 @@ const userSlice = createSlice({
         }) 
         .addCase(addNewUser.rejected , (state , action)=>{
             state.status = 'failed'
-            console.log(action.error.message)
-            toast.error(action.error)
+            console.log(action.error)
+            toast.error(action.error.message)
             state.error = action.error.message
         })
         .addCase(addNewUser.fulfilled , (state , action)=>{

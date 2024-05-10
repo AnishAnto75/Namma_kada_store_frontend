@@ -1,29 +1,47 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CartAmountFeed from '../components/products/CartAmountFeed'
 import CheckoutAddress from '../components/checkout/CheckoutAddress'
 import { FaCheckCircle } from "react-icons/fa";
 import CheckoutProductSummary from '../components/checkout/CheckoutProductSummary';
 import CheckoutPaymentMethod from '../components/checkout/CheckoutPaymentMethod';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../slices/UserSlice';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutPage = () => {
 
     const [addressSuccess , setAddressSuccess] = useState('idle')
     const [orderSummarySuccess , setOrderSummarySuccess] = useState('idle')
+    const navigate = useNavigate()
 
-  return (
-    <div className='flex md:p-5 p-2 gap-5 justify-center min-h-screen'>
+    const user = useSelector(selectUser)[0]
+    const address = user?.address
+
+    useEffect(()=>{
+        if (user && address){
+            if (user.phoneNumber && address?.city && address?.pincode && address?.district && address?.address){
+                setAddressSuccess('ok')
+            }
+            if(!user.orderDetails.items_in_cart.length){
+                navigate('/products/cart')
+            }
+        }
+    },[user])
+
+    return (
+    <div className='flex flex-col md:flex-row md:p-5 p-2 gap-5 justify-center min-h-screen'>
         <div className='md:w-3/5 w-full rounded-md space-y-1'>
 
             <div className="collapse border rounded-lg">
-                <input type="radio" name="my-accordion-3" checked={addressSuccess == 'idle'} onChange={()=>setAddressSuccess('idle')} />
+                <input type="radio" name="my-accordion-3" checked={addressSuccess == 'idle' || 'ok'} onChange={()=>setAddressSuccess('idle')} />
                 <div className="flex collapse-title font-[arial] text-gray-600 justify-between">
                     <span className='text-xl flex gap-1'>Address {addressSuccess == 'success' ? <FaCheckCircle className='h-4 text-sky-400 mt-1'/> :''}</span>
                 </div>
                 <div className="collapse-content h-full w-full"> 
                     <div className='divider m-0 h-3'/>
-                    <CheckoutAddress />
+                    <CheckoutAddress setAddressSuccess = {setAddressSuccess} />
                     <button 
-                        onClick={()=>setAddressSuccess('success')}
+                        onClick={()=> addressSuccess == 'ok' ? setAddressSuccess('success') : addressSuccess == 'idle' ? setAddressSuccess('success') : ''}
                         className='btn m-1 bg-sky-400 text-white hover:bg-sky-500'
                         >Delivery Here
                     </button>
@@ -56,7 +74,7 @@ const CheckoutPage = () => {
             </div>
 
         </div>
-        <div className='w-1/4 p-5 lg:h-52 md:h-60 rounded-md shadow-sm hidden md:block sticky top-2'>
+        <div className='md:w-1/4 w-full p-5 lg:h-52 md:h-60 rounded-md shadow-sm md:block sticky top-2'>
             <CartAmountFeed />
         </div>
     </div>

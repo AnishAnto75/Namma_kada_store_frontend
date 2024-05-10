@@ -42,6 +42,7 @@ const UserProfilePage = () => {
             Object.fromEntries(Object.entries(obj).filter(predicate));
 
         const filteredData = Object.filter(userData, ([key, value]) => value !== '');
+        console.log(filteredData)
         dispatch(updateUser(filteredData))
         navigate('/')
     }
@@ -94,10 +95,11 @@ const UserProfilePage = () => {
                                         type="number" 
                                         name="phoneNumber" 
                                         id="phoneNumber"
+                                        required
                                         value={phoneNumber} 
                                         onChange={(e)=>setPhoneNumber(e.target.value)}
                                         onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                        className="h-10 border mt-1 rounded px-4 w-full bg-white" />
+                                        className="h-10 border mt-1 rounded px-4 w-full bg-white hide-arrow" />
                                 </div>
 
                                 <div className="md:col-span-2">
@@ -123,7 +125,7 @@ const UserProfilePage = () => {
                                         value={pincode} 
                                         onChange={(e)=>setPincode(e.target.value)}
                                         onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                        className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-white"/>
+                                        className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-white hide-arrow"/>
                                 </div>
 
                                 <div className="md:col-span-2">

@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { selectAllCartProducts, selectCartDeliveryCharges, selectCartTotalAmount, selectTotalMrp, selectTotalSellingPrice } from '../../slices/CartSlice'
 import {selectUser, selectUserIds} from '../../slices/UserSlice.js'
+import { createOrder } from '../../slices/OrderSlice.js'
 
 const CheckoutPaymentMethod = () => {
 
     // const [paymentType , setPaymentType] = useState('cash_on_delivery')
+
+    const dispatch = useDispatch()
 
     const Address = useSelector(selectUser)[0]?.address
     const user = useSelector(selectUser)[0]
@@ -46,7 +49,9 @@ const CheckoutPaymentMethod = () => {
 
     const order = {user_id , total_mrp , total_price , delivery_charges , total_selling_price , payment_method , delivery_address , delivery_details , product_details }
 
-    console.log('order details : ',order)
+    const placeOrder = ()=>{
+        dispatch(createOrder(order))
+    }
 
     return (
         <div>
@@ -61,7 +66,11 @@ const CheckoutPaymentMethod = () => {
                     />
                 <span>Cash on Delivery</span>
             </div>
-            <button className='btn bg-sky-400 text-white hover:bg-sky-500 mt-3'>Confirm order</button>
+            <button 
+                onClick={()=>placeOrder()}
+                className='btn bg-sky-400 text-white hover:bg-sky-500 mt-3'
+                >Confirm order
+            </button>
         </div>
     )
 }

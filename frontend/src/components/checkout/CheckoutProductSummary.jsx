@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectCartIdAndNo } from '../../slices/CartSlice.js'
 import CheckoutProductCard from './CheckoutProductCard'
+import {useNavigate} from 'react-router-dom'
 
 const CheckoutProductSummary = () => {
 

@@ -5,22 +5,22 @@ export const createOrders = async(req , res)=>{
 
     const {user_id , total_mrp , total_price , delivery_charges , total_selling_price , product_details , payment_method , delivery_address , delivery_details } = req.body
 
-    if(!user_id || !total_mrp || !total_price || !delivery_charges || !total_selling_price || !product_details || !payment_method || !delivery_address || !delivery_details){
-
-        return res.status(404).send({message : "required all fields"})
+    if(!user_id || !total_mrp || !total_price || !String(delivery_charges) || !total_selling_price || !product_details || !payment_method || !delivery_address || !delivery_details){
+        return res.status(404).send({error : "required all fields"})
     }
 
     try {
         const user = await User.findOne({_id : user_id})
 
         if(!user){
-            return res.status(404).send({error : 'user not found' })
+            return res.status(403).send({error : 'user not found' })
         }
 
         const newOrder = new Orders(req.body)
         await newOrder.save()
     
         user.orderDetails.orders.push(newOrder._id) 
+        user.orderDetails.items_in_cart = []
         user.save()
 
         return res.status(200).send({data : newOrder , message: "order created sucessfully"})

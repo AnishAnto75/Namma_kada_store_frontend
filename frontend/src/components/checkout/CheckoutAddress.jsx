@@ -12,27 +12,32 @@ const CheckoutAddress = () => {
     const [city , setCity] = useState('')
     const [district , setDistrict] = useState('')
     const [pincode , setPincode] = useState('')    
+    const [phoneNumber , setPhoneNumber] = useState('')    
     const [address , setAddress] = useState('')
-    
+
     const handleRef = useRef(true)
 
     useEffect(()=>{
         if (user && handleRef.current){
-
             setCity(user.address?.city? user.address?.city : '')
             setDistrict(user.address?.district? user.address?.district : '')
             setPincode(user.address?.pincode? user.address?.pincode : '')
+            setPhoneNumber(user.phoneNumber ? user.phoneNumber : '')
             setAddress(user.address?.address? user.address?.address : '')
+
+            if(!user.address.city || ! user.address.district || !user.address.pincode || !user.address.address || ! user.phoneNumber){
+                setHidden(true)
+            }
 
             handleRef.current =false
         }
-    },[user])
+    },[user , address])
 
     const handleSubmit = async(e)=>{
 
         e.preventDefault()
         setHidden(false)
-        const userData = { address : { district , pincode , address , city } , auth0Id : user.auth0Id  }
+        const userData = { address : { district , pincode , address , city } , phoneNumber  , auth0Id : user.auth0Id  }
 
         Object.filter = (obj, predicate) => 
             Object.fromEntries(Object.entries(obj).filter(predicate));
@@ -50,25 +55,24 @@ const CheckoutAddress = () => {
                 <span>{Address?.pincode} , </span>
                 <span>{Address?.city} ,</span>
             </div>
-            <div>{Address?.district}</div>
+            <div>{Address?.district} , {user?.phoneNumber}</div>
             <div className='w-full justify-end text-end pr-5 '>
                 <button 
                     onClick={()=>setHidden(true)}
                     className='px-5 py-1 rounded-full text-amber-50 bg-amber-400 hover:bg-amber-500'
-                    >
-                    Edit
+                    >Edit
                 </button>
             </div>
         </div>
 
         <div className={!hidden ? 'hidden' : ''}>
             <form onSubmit={(e)=>handleSubmit(e)}>
-                <div className="bg-gray-50 rounded shadow-md p-4 ">
+                <div className="bg-slate-50 rounded shadow-md p-4 ">
                     <div className="grid gap-y- grid-cols-1 lg:grid-cols-3">
                         <div className="lg:col-span-3">
                             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
 
-                            <div className="md:col-span-6 lg:col-span-2">
+                            <div className="md:col-span-3">
                                 <label htmlFor="city">City</label>
                                 <input 
                                     type="text" 
@@ -82,7 +86,7 @@ const CheckoutAddress = () => {
                                     className="h-10 border mt-1 rounded px-4 w-full bg-white" />
                             </div>
 
-                            <div className="md:col-span-3 lg:col-span-2">
+                            <div className="md:col-span-3 ">
                                 <label htmlFor="pincode">Pincode</label>
                                 <input 
                                     type="number" 
@@ -96,7 +100,7 @@ const CheckoutAddress = () => {
                                     className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-white hide-arrow"/>
                             </div>
 
-                            <div className="md:col-span-3 lg:col-span-2">
+                            <div className="md:col-span-3">
                                 <label htmlFor="district">District</label>
                                 <input 
                                     type='text'
@@ -108,6 +112,20 @@ const CheckoutAddress = () => {
                                     onChange={(e)=>setDistrict(e.target.value)}
                                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                     className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-white" />
+                            </div>
+
+                            <div className="md:col-span-3 ">
+                                <label htmlFor="phoneNumber">Phone number</label>
+                                <input 
+                                    type="number" 
+                                    name="phoneNumber" 
+                                    id="phoneNumber" 
+                                    autoComplete="off"
+                                    required
+                                    value={phoneNumber} 
+                                    onChange={(e)=>setPhoneNumber(e.target.value)}
+                                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                    className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-white hide-arrow"/>
                             </div>
 
                             <div className="md:col-span-6 mb-8">

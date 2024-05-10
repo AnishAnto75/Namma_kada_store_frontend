@@ -6,26 +6,27 @@ import { Toaster } from 'react-hot-toast'
 
 import { fetchUser, selectUser} from './slices/UserSlice'
 import { fetchProducts, getProductStatus, selectAllProduct } from './slices/ProductSlice'
+import { addCartProduct } from './slices/CartSlice.js'
 
 import AuthCallBack from './pages/AuthCallBack'
-
-import MainLayout from './layouts/MainLayout'
-import HomePage from './pages/HomePage'
-import UserProfilePage from './pages/UserProfilePage'
-import AllProducts from './pages/products/AllProducts'
 
 import AdminLayout from './layouts/Admin_layout'
 import AdminProductPage from './pages/adminpages/products/AdminProductPage'
 import AddNewProductPage from './pages/adminpages/products/AddNewProductPage'
 import AdminProductViewPage from './pages/adminpages/products/AdminProductViewPage'
+
+import MainLayout from './layouts/MainLayout'
+import HomePage from './pages/HomePage'
+import UserProfilePage from './pages/UserProfilePage'
+import AllProducts from './pages/products/AllProducts'
 import CartPage from './pages/products/CartPage'
-import { addCartProduct } from './slices/CartSlice.js'
 import CheckoutPage from './pages/CheckoutPage.jsx'
+import OrdersPage from './pages/OrdersPage.jsx'
 
 function App() {
 
     const dispatch = useDispatch()
-    const {user , isAuthenticated} = useAuth0()
+    const {user , isAuthenticated } = useAuth0()
     const handleRef = useRef(true)
     const handleRef1 = useRef(true)
     const ProductStatus = useSelector(getProductStatus)
@@ -42,7 +43,6 @@ function App() {
             handleRef.current = false
         }
         if(userCart){
-            console.log('userCart appjsx')
             dispatch(addCartProduct({userCart , products}))
         }
     },[isAuthenticated , ProductStatus , userCart])
@@ -55,6 +55,8 @@ function App() {
                 <Route index element={<HomePage />} />
                 <Route path='user-profile' element={<UserProfilePage />}/>
                 <Route path='checkout' element={<CheckoutPage />}/>
+                <Route path='orders' element={<OrdersPage />}/>
+                
 
                 <Route path='/products'>
                     <Route index element={<AllProducts />} />

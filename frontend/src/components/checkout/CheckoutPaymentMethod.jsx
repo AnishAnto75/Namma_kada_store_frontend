@@ -1,14 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectAllCartProducts, selectCartDeliveryCharges, selectCartTotalAmount, selectTotalMrp, selectTotalSellingPrice } from '../../slices/CartSlice'
+import { removeCart, selectAllCartProducts, selectCartDeliveryCharges, selectCartTotalAmount, selectTotalMrp, selectTotalSellingPrice } from '../../slices/CartSlice'
 import {selectUser, selectUserIds} from '../../slices/UserSlice.js'
-import { createOrder } from '../../slices/OrderSlice.js'
+import { changeState, createOrder, selectOrderStatus } from '../../slices/OrderSlice.js'
+import { useNavigate } from 'react-router-dom'
 
 const CheckoutPaymentMethod = () => {
 
-    // const [paymentType , setPaymentType] = useState('cash_on_delivery')
-
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const handleRef = useRef(true)
+
+    const orderStatus = useSelector(selectOrderStatus)
+
+    useEffect(()=>{
+        if(orderStatus == 'succeded' && handleRef.current){
+            dispatch(removeCart())
+            dispatch(changeState('idle'))
+            handleRef.current = false
+            navigate('/')
+        }
+    } , [orderStatus])
 
     const Address = useSelector(selectUser)[0]?.address
     const user = useSelector(selectUser)[0]
@@ -60,8 +72,6 @@ const CheckoutPaymentMethod = () => {
                     type="radio" 
                     name='cash_on_delivery'
                     defaultChecked
-                    // value={paymentType}
-                    // onChange={()=>setPaymentType('cash_on_delivery')}
                     className="mt-0.5 radio radio-info h-5 w-5"
                     />
                 <span>Cash on Delivery</span>

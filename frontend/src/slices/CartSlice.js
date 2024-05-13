@@ -51,11 +51,22 @@ const cartSlice = createSlice({
             state.deliveryCharges = state.totalSellingPrice <= 500 ? 120 : 0
             state.totalAmount = state.deliveryCharges+state.totalSellingPrice
             state.totalNoOfProduct = userCart.length
+        },
+        removeCart : (state)=>{
+            state.products = []
+            state.product_ids = []
+            state.productIdAndNo = []
+            state.totalMrp = 0
+            state.totalSellingPrice = 0
+            state.discount = 0
+            state.deliveryCharges = 0
+            state.totalAmount = 0
+            state.totalNoOfProduct = 0
         }
     },
 })
 
-export const {addCartProduct} = cartSlice.actions
+export const {addCartProduct , removeCart} = cartSlice.actions
 
 export const selectAllCartProducts = (state)=> state.cart.products
 export const selectCartProductIds = (state)=> state.cart.product_ids
@@ -75,6 +86,11 @@ export const selectTotalPriceOfProduct = (state , id) =>{
     const user = state.cart.products?.find(product =>  product._id == id)
     const price = user.product_price * user.no_of_product 
     return price
+}
+
+export const selectCartProductById = (state , id)=>{
+    const products = state.cart.products.find(product => product._id == id)
+    return products
 }
 
 export default cartSlice.reducer

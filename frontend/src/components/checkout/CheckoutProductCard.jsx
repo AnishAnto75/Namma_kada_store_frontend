@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectProductById } from "../../slices/ProductSlice"
-import { addToCart, getCartProductById, selectUserIds } from "../../slices/UserSlice"
+import { addToCart , selectUserIds } from "../../slices/UserSlice"
 import { useEffect, useState } from "react"
-import { selectTotalMrpOfProduct, selectTotalPriceOfProduct } from "../../slices/CartSlice"
+import { selectCartProductById, selectTotalMrpOfProduct, selectTotalPriceOfProduct } from "../../slices/CartSlice"
 
 const CheckoutProductCard = ({id}) => {
     
@@ -12,7 +12,7 @@ const CheckoutProductCard = ({id}) => {
     
     const product = useSelector(state => selectProductById(state , id))
     const user_id = useSelector(selectUserIds)[0]
-    const data = useSelector(state => getCartProductById(state , id))
+    const data = useSelector(state => selectCartProductById(state , id))
     const totalMrpOfProduct = useSelector(state => selectTotalMrpOfProduct(state , id))
     const totalPriceOfProduct = useSelector(state => selectTotalPriceOfProduct(state , id))
     

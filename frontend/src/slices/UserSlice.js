@@ -128,14 +128,5 @@ export const {
     selectAll : selectUser
 } = userAdapter.getSelectors((state) => state.user)
 
-export const getCartProductById = (state , id )=>{
-    const user = state.user.entities
-    
-    const t = Object.entries(user).map((data)=> data )
-    const datas = t[0]?.[1]?.orderDetails?.items_in_cart
-
-    const datad = datas?.find(product => product.product_id == id)
-    return datad
-}
 export const getUserStatus = (state)=> state.user.status
 export default userSlice.reducer

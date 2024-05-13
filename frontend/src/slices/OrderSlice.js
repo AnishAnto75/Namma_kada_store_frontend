@@ -20,10 +20,21 @@ export const createOrder = createAsyncThunk('order/createOrder' , async(data)=>{
     return res.data
 })
 
+export const getOrder = createAsyncThunk('order/getOrder' , async(userId)=>{
+    const res = await axios.get(`${ORDER_URL}/${userId}`).catch(()=>{
+        throw new Error(error.response.data.error)
+    })
+    return res.data
+})
+
 const orderSlice = createSlice({
     name : 'order',
     initialState,
-    reducers:{},
+    reducers:{
+        changeState : (state , action)=>{
+            state.status = action.payload
+        }
+    },
     extraReducers(builder){
         builder
         .addCase(createOrder.pending , (state , action)=>{
@@ -36,12 +47,38 @@ const orderSlice = createSlice({
             console.error('createOrderError',action.error)
         })
         .addCase(createOrder.fulfilled , (state , action)=>{
-            state.status = 'suceeded'
+            state.status = 'succeded'
             console.log('createOrder payload :',action.payload)
             toast.success(action.payload.message)
             orderAdapter.addOne(state , action.payload.data)             
         })
+
+        .addCase(getOrder.pending , (state , action)=>{
+            state.status = 'loading'
+        }) 
+        .addCase(getOrder.rejected , (state , action)=>{
+            state.status = 'failed'
+            state.error = action.error
+            toast.error(action.error.message)
+            console.error('getOrderError',action.error)
+        })
+        .addCase(getOrder.fulfilled , (state , action)=>{
+            state.status = 'idle'
+            console.log('getOrder payload :',action.payload)
+            orderAdapter.upsertMany(state , action.payload.data)             
+        })
     }
 })
+
+export const {changeState} = orderSlice.actions
+
+export const {
+    selectById : selectOrderById,
+    selectIds : selectOrderIds,
+    selectTotal : seleteTotalNumberOfProducts,
+    selectAll : selectAllOrders
+} = orderAdapter.getSelectors((state) => state.order)
+
+export const selectOrderStatus = (state) => state.order.status
 
 export default orderSlice.reducer

@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
-import { addToCart, getCartProductById, selectUserIds } from '../../slices/UserSlice'
+import { addToCart , selectUserIds } from '../../slices/UserSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {useAuth0} from '@auth0/auth0-react'
+import { selectCartProductById } from '../../slices/CartSlice'
 
 const AddToCartButton = ({product_id}) => {
 
     const dispatch = useDispatch()
     const user_id = useSelector(selectUserIds)[0]
-    const data = useSelector(state => getCartProductById(state , product_id))
+    const data = useSelector(state => selectCartProductById(state , product_id))
     const { loginWithRedirect } = useAuth0()
 
     const [no_of_product , set_no_of_product] = useState(0)
@@ -17,6 +18,7 @@ const AddToCartButton = ({product_id}) => {
             set_no_of_product(data.no_of_product)
         }
     },[data])
+
 
     const add_to_cart = ()=>{
         const cartData = {user_id , product_id , no_of_product : 1 }

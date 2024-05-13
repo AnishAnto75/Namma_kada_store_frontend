@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
 
-import { fetchUser, selectUser} from './slices/UserSlice'
+import { fetchUser, selectUser, selectUserIds} from './slices/UserSlice'
 import { fetchProducts, getProductStatus, selectAllProduct } from './slices/ProductSlice'
 import { addCartProduct } from './slices/CartSlice.js'
 
@@ -22,16 +22,23 @@ import AllProducts from './pages/products/AllProducts'
 import CartPage from './pages/products/CartPage'
 import CheckoutPage from './pages/CheckoutPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
+import { getOrder } from './slices/OrderSlice.js'
+import OrderViewPage from './pages/OrderViewPage.jsx'
 
 function App() {
 
     const dispatch = useDispatch()
+
     const {user , isAuthenticated } = useAuth0()
-    const handleRef = useRef(true)
-    const handleRef1 = useRef(true)
+    
     const ProductStatus = useSelector(getProductStatus)
     const userCart = useSelector(selectUser)[0]?.orderDetails?.items_in_cart
     const products = useSelector(selectAllProduct)
+    const userId = useSelector(selectUserIds)[0]
+    
+    const handleRef = useRef(true)
+    const handleRef1 = useRef(true)
+    const handleRef2 = useRef(true)
 
     useEffect(()=>{
         if(isAuthenticated && handleRef1.current){
@@ -45,6 +52,10 @@ function App() {
         if(userCart){
             dispatch(addCartProduct({userCart , products}))
         }
+        if(userId && handleRef2.current){
+            dispatch(getOrder(userId))
+            handleRef2.current = false
+        }
     },[isAuthenticated , ProductStatus , userCart])
 
     return (
@@ -56,8 +67,8 @@ function App() {
                 <Route path='user-profile' element={<UserProfilePage />}/>
                 <Route path='checkout' element={<CheckoutPage />}/>
                 <Route path='orders' element={<OrdersPage />}/>
+                <Route path='orders/:id' element={<OrderViewPage />}/>
                 
-
                 <Route path='/products'>
                     <Route index element={<AllProducts />} />
                     <Route path='cart' element={<CartPage />} />

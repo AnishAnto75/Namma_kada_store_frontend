@@ -57,7 +57,7 @@ const productSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
             toast.error(action.error.message)
-            console.log(action.error)
+            console.error(action.error)
         })
         .addCase(fetchProducts.fulfilled , (state , action)=>{
             state.status = 'suceeded'
@@ -72,7 +72,7 @@ const productSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
             toast.error(action.error.message)
-            console.log('product created rejected',action.error)
+            console.error('product created rejected',action.error)
         })
         .addCase(addNewProduct.fulfilled , (state , action)=>{
             state.status = 'suceeded'
@@ -88,7 +88,7 @@ const productSlice = createSlice({
             state.status = 'failed'
             state.error = action.error.message
             toast.error(action.error.message)
-            console.log('product update rejected',action.error)
+            console.error('product update rejected',action.error)
         })
         .addCase(updateProduct.fulfilled , (state , action)=>{
             state.status = 'suceeded'

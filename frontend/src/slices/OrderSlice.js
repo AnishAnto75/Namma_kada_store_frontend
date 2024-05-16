@@ -21,7 +21,7 @@ export const createOrder = createAsyncThunk('order/createOrder' , async(data)=>{
 })
 
 export const getOrder = createAsyncThunk('order/getOrder' , async(userId)=>{
-    const res = await axios.get(`${ORDER_URL}/${userId}`).catch(()=>{
+    const res = await axios.get(`${ORDER_URL}/${userId}`).catch((error)=>{
         throw new Error(error.response.data.error)
     })
     return res.data

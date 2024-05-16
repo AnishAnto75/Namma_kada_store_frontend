@@ -70,7 +70,7 @@ const CheckoutPage = () => {
                 </div>
             </div>
 
-            <div className="collapse border rounded-lg">
+            <div className="collapse border rounded-lg ">
                 <input type="radio" name="my-accordion-3" checked={addressSuccess == 'success' && orderSummarySuccess == 'success'} onChange={()=>''} /> 
                 <div className="collapse-title text-xl font-[arial] text-gray-600">
                     Payment method

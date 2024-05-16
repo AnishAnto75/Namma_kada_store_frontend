@@ -32,8 +32,3 @@ const ProductCard = ({id }) => {
 }
 
 export default ProductCard
-
-// const mrp = product?.product_mrp
-// const price = product?.product_price
-// const discount = mrp-price
-// const product_discount = Math.round((discount/mrp)*100)

@@ -4,11 +4,11 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
 
+import AuthCallBack from './pages/AuthCallBack'
+
 import { fetchUser, selectUser, selectUserIds} from './slices/UserSlice'
 import { fetchProducts, getProductStatus, selectAllProduct } from './slices/ProductSlice'
 import { addCartProduct } from './slices/CartSlice.js'
-
-import AuthCallBack from './pages/AuthCallBack'
 
 import AdminLayout from './layouts/Admin_layout'
 import AdminProductPage from './pages/adminpages/products/AdminProductPage'
@@ -24,6 +24,10 @@ import CheckoutPage from './pages/CheckoutPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
 import { getOrder } from './slices/OrderSlice.js'
 import OrderViewPage from './pages/OrderViewPage.jsx'
+import AdminHomePage from './pages/adminpages/AdminHomePage.jsx'
+import AdminOrdersPage from './pages/adminpages/Orders/AdminOrdersPage.jsx'
+import AdminOrderViewPage from './pages/adminpages/Orders/AdminOrderViewPage.jsx'
+import { getAdminOrder, selectAdminOrderStatus } from './slices/AdminOrdersSlice.js'
 
 function App() {
 
@@ -32,6 +36,8 @@ function App() {
     const {user , isAuthenticated } = useAuth0()
     
     const ProductStatus = useSelector(getProductStatus)
+    const adminOrderStatus = useSelector(selectAdminOrderStatus)
+
     const userCart = useSelector(selectUser)[0]?.orderDetails?.items_in_cart
     const products = useSelector(selectAllProduct)
     const userId = useSelector(selectUserIds)[0]
@@ -39,6 +45,7 @@ function App() {
     const handleRef = useRef(true)
     const handleRef1 = useRef(true)
     const handleRef2 = useRef(true)
+    const handleRef3= useRef(true)
 
     useEffect(()=>{
         if(isAuthenticated && handleRef1.current){
@@ -56,6 +63,10 @@ function App() {
             dispatch(getOrder(userId))
             handleRef2.current = false
         }
+        if(adminOrderStatus == 'idle' && handleRef3.current){
+            dispatch(getAdminOrder())
+            handleRef3.current = false
+        }
     },[isAuthenticated , ProductStatus , userCart])
 
     return (
@@ -68,18 +79,26 @@ function App() {
                 <Route path='checkout' element={<CheckoutPage />}/>
                 <Route path='orders' element={<OrdersPage />}/>
                 <Route path='orders/:id' element={<OrderViewPage />}/>
-                
+
                 <Route path='/products'>
                     <Route index element={<AllProducts />} />
+                    <Route path=':id' element={<div>jhbb</div>} />
                     <Route path='cart' element={<CartPage />} />
                 </Route>
             </Route>        
 
             <Route path='/admin' element={<AdminLayout />}>
+                <Route index element={<AdminHomePage />} />
+                <Route path='orders/:id' element={<AdminOrderViewPage />}/>
+
                 <Route path='products'>
                     <Route index element={<AdminProductPage />} />
                     <Route path=':id' element={<AdminProductViewPage />} />
                     <Route path='add-product' element={<AddNewProductPage />} />
+                </Route>
+
+                <Route path='orders'>
+                    <Route index element={<AdminOrdersPage />}/>
                 </Route>
             </Route>
 

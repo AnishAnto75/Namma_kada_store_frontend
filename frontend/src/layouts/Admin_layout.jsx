@@ -6,13 +6,12 @@ import AdminHeader from '../components/Admin/Admin_header/AdminHeader.jsx'
 const MainLayout = () => {
   return (
     <div>
-        <div className='sticky top-0'>
+        <div>
         <AdminHeader />
         </div>
 
         <Outlet />
     </div>
-
   )
 }
 

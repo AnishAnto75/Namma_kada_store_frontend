@@ -3,6 +3,8 @@ import { addToCart , selectUserIds } from '../../slices/UserSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {useAuth0} from '@auth0/auth0-react'
 import { selectCartProductById } from '../../slices/CartSlice'
+import { FaPlus } from "react-icons/fa6";
+import { FaMinus } from "react-icons/fa6";
 
 const AddToCartButton = ({product_id}) => {
 
@@ -18,7 +20,6 @@ const AddToCartButton = ({product_id}) => {
             set_no_of_product(data.no_of_product)
         }
     },[data])
-
 
     const add_to_cart = ()=>{
         const cartData = {user_id , product_id , no_of_product : 1 }
@@ -41,38 +42,39 @@ const AddToCartButton = ({product_id}) => {
   return (
     <>
         {data?
-        <div className="flex justify-between rounded-xl border-2 border-gray-300">
+        <div className="flex justify-between h-11 rounded-md border border-dark_gray w-full">
             <button
                 onClick={()=>reduceProduct()}
-                className=" w-20 h-11 rounded-s-xl bg-amber-500 text-white hover:bg-amber-600 border-2 boder-black" 
-            >-
+                className="w-16 rounded-s-md bg-lite_gray text-third border-r border-dark_gray" 
+                >
+                <FaMinus className='hero p-0.5' />
             </button>
-            <form onSubmit={(e)=>updateCart(e)} className='w-full h-11'>
+            <form onSubmit={(e)=>updateCart(e)} className='w-full max-w-16 h-11'>
                 <input 
                     type="number" 
                     value={no_of_product}
                     onChange={(e)=>set_no_of_product(e.target.value)} 
-                    className='h-full w-full text-center hide-arrow border-y-2' />
+                    className='h-[41px] w-full text-center hide-arrow outline-none' />
             </form>
             <button
                 onClick={()=>increaseProduct()}
-                className="w-20 h-11 rounded-e-xl bg-amber-500 text-white hover:bg-amber-600 border-2 border-lack" 
+                className="w-16 rounded-e-md bg-lite_gray text-third border-l border-dark_gray" 
                 >
-                +
+                <FaPlus className='hero p-0.5' />
             </button>
         </div>
         :
         user_id? 
-            <div 
+            <button 
                 onClick={()=>add_to_cart()}
-                className='h-11 w-full bg-amber-500 rounded-lg shadow-md hero text-white hover:bg-amber-600 cursor-pointer'>
+                className='h-11 w-full bg-white rounded text-third font-medium hover:font-[cursive] border border-dark_gray'>
                 Add to cart
-            </div>
+            </button>
         :
         <>
             <button 
                 onClick={()=>document.getElementById('my_modal_3').showModal()}
-                className='h-11 w-full bg-amber-500 rounded-lg shadow-md hero text-white hover:bg-amber-600 cursor-pointer'
+                className='h-11 w-full bg-white rounded text-third font-medium hover:font-[cursive] border border-dark_gray'
             >Add to Cart</button>
             <dialog id="my_modal_3" className="modal">
                 <div className="modal-box h-40">

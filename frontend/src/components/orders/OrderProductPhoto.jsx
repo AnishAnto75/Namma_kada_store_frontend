@@ -8,9 +8,9 @@ const OrderProductPhoto = ({id , count}) => {
     const PRODUCT_IMAGE_URL = `${import.meta.env.VITE_PRODUCT_IMAGE_URL}/${productPhoto}`
 
   return (
-    <div className="avatar border bg-slate-200 rounded-full">
-        <div className={`${count == 1 ? 'w-full rounded-full' : 'w-[62px] rounded-full'} `}>
-            <img src={PRODUCT_IMAGE_URL} />
+    <div className="avatar border border-gray rounded-full">
+        <div className={`${count == 1 ? 'w-full p-1' : 'size-[54px] rounded-full  bg-white p-0.5'}`}>
+            <img src={PRODUCT_IMAGE_URL} className='object-none '/>
         </div>
     </div>
   )

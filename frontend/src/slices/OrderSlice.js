@@ -19,9 +19,12 @@ export const createOrder = createAsyncThunk('order/createOrder' , async(data)=>{
     })
     return res.data
 })
+export const cancelOrderStatus = createAsyncThunk('order/cancelOrderStatus' , async(data)=>{
 
-export const getOrder = createAsyncThunk('order/getOrder' , async(userId)=>{
-    const res = await axios.get(`${ORDER_URL}/${userId}`).catch((error)=>{
+    const {id} = data
+    const date = {date : new Date}
+    console.log(id , status)
+    const res = await axios.put(`${ORDER_URL}/${id}` , date).catch((error)=>{
         throw new Error(error.response.data.error)
     })
     return res.data
@@ -31,6 +34,9 @@ const orderSlice = createSlice({
     name : 'order',
     initialState,
     reducers:{
+        addOrders : (state , action)=>{
+            orderAdapter.upsertMany(state , action.payload)
+        },
         changeState : (state , action)=>{
             state.status = action.payload
         }
@@ -53,24 +59,24 @@ const orderSlice = createSlice({
             orderAdapter.addOne(state , action.payload.data)             
         })
 
-        .addCase(getOrder.pending , (state , action)=>{
+        .addCase(cancelOrderStatus.pending , (state , action)=>{
             state.status = 'loading'
         }) 
-        .addCase(getOrder.rejected , (state , action)=>{
+        .addCase(cancelOrderStatus.rejected , (state , action)=>{
             state.status = 'failed'
             state.error = action.error
-            toast.error(action.error.message)
-            console.error('getOrderError',action.error)
+            toast.error(action.error)
+            console.error('cancelOrdersError',action)
         })
-        .addCase(getOrder.fulfilled , (state , action)=>{
-            state.status = 'idle'
-            console.log('getOrder payload :',action.payload)
-            orderAdapter.upsertMany(state , action.payload.data)             
+        .addCase(cancelOrderStatus.fulfilled , (state , action)=>{
+            state.status = 'succeded'
+            console.log('canselOrders payload :',action.payload.data)
+            orderAdapter.upsertOne(state , action.payload.data)             
         })
     }
 })
 
-export const {changeState} = orderSlice.actions
+export const {changeState , addOrders} = orderSlice.actions
 
 export const {
     selectById : selectOrderById,

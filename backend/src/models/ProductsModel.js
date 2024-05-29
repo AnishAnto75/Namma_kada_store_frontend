@@ -1,27 +1,32 @@
 import mongoose from "mongoose";
 
 const productSchema = mongoose.Schema({
-    _id : {                     //
+    _id : {                     
         type : String,
         required : true,
         trim : true,
         immutable : true,
     },
-    product_name : {            //
+    product_name : {            
         type : String,
         required : true,
         trim : true
     },
-    product_category : {        //
+    product_group : {        
         type : String,
         required : true,
         trim : true
     },
-    product_quantity : {        //
+    product_category : {        
+        type : String,
+        required : true,
+        trim : true
+    },
+    product_quantity : {        
         type :String,
         trim : true
     },
-    product_net_quantity : {    //
+    product_net_quantity : {    
         type :Number,
         trim : true
     },
@@ -33,7 +38,7 @@ const productSchema = mongoose.Schema({
         type : Number,
         trim : true
     },
-    product_brand : {           //
+    product_brand : { 
         type : String,
         trim : true
     },

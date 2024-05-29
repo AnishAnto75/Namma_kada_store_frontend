@@ -6,6 +6,7 @@ const AddNewProductPage = () => {
 
     const dispatch = useDispatch()
 
+    const [product_group , setGroup ] = useState('')
     const [product_category , setCategory ] = useState('')
     const [product_brand , setBrand ] = useState('')
     const [product_name , setName ] = useState('')
@@ -27,7 +28,7 @@ const AddNewProductPage = () => {
     const handleSubmit = (e)=>{
         e.preventDefault()
 
-        const productDetails =  {product_category , product_brand , product_name , _id , product_quantity , product_net_quantity , product_distributor , product_manufacture_date , product_expire_date , product_photos , product_mrp , product_purchase_cost , product_landing_cost , product_price, product_stock , product_description , product_highlights}
+        const productDetails =  {product_group , product_category , product_brand , product_name , _id , product_quantity , product_net_quantity , product_distributor , product_manufacture_date , product_expire_date , product_photos , product_mrp , product_purchase_cost , product_landing_cost , product_price, product_stock , product_description , product_highlights}
 
         Object.filter = (obj, predicate) => 
             Object.fromEntries(Object.entries(obj).filter(predicate));
@@ -38,6 +39,12 @@ const AddNewProductPage = () => {
 
     const canSave = true
 
+    const group = [{id : 1 , name : "baby products"},{id : 2 ,name : "steel"} ]
+    const groupOptions = group.map(name =>(
+        <option key ={name.id} value={name.name}>
+            {name.name}
+        </option>
+    ))
     const categories = [{id : 1 , name : "apple"},{id : 2 ,name : "orange"} ]
     const categoryOption = categories.map(name =>(
         <option key ={name.id} value={name.name}>
@@ -61,14 +68,22 @@ const AddNewProductPage = () => {
                             <div className="grid gap-3 gap-y-2 md:gap-5 md:gap-y-5 text-md grid-cols-1 md:grid-cols-10">
 
                             <div className="md:col-span-2">
+                                <label htmlFor="product_category">Group</label>
+                                <select name="product_category" value={product_group} onChange={(e)=> setGroup(e.target.value)} required className="select select-bordered w-full mt-1 ">
+                                    <option disabled value='' />
+                                    {groupOptions}
+                                </select>
+                            </div>
+
+                            <div className="md:col-span-2">
                                 <label htmlFor="product_category">Category</label>
-                                <select name="product_category" value={product_category} onChange={(e)=> setCategory(e.target.value)} required className="select select-bordered w-full mt-1 ">
+                                <select name="product_category" value={product_category} onChange={(e)=> setCategory(e.target.value)} disabled={!product_group} required className="select select-bordered w-full mt-1 ">
                                     <option disabled value='' />
                                     {categoryOption}
                                 </select>
                             </div>
 
-                            <div className="md:col-span-3 ">
+                            <div className="md:col-span-2 ">
                                 <label htmlFor="brand">Brand</label>
                                 <input 
                                     type="text" 
@@ -81,7 +96,7 @@ const AddNewProductPage = () => {
                                     className="input input-bordered w-full mt-1" />
                             </div>
 
-                            <div className="md:col-span-5">
+                            <div className="md:col-span-4">
                                 <label htmlFor="name">Name</label>
                                 <input 
                                     type="text" 
@@ -92,9 +107,9 @@ const AddNewProductPage = () => {
                                     value={product_name}
                                     onChange={(e)=>setName(e.target.value)}
                                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                    className="input input-bordered w-full mt-1" />
+                                    className="input input-bordered w-full mt-1 p-2" />
                             </div>
-                            
+
                             <div className="md:col-span-3 ">
                                 <label htmlFor="id">Id</label>
                                 <input 
@@ -104,7 +119,7 @@ const AddNewProductPage = () => {
                                     autoComplete="off"
                                     required
                                     value={_id}
-                                    onChange={(e)=>setId(e.target.value)}
+                                    onChange={(e)=>setId((e.target.value).toUpperCase().trim())}
                                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                     className="input input-bordered w-full mt-1" />
                             </div>
@@ -117,14 +132,14 @@ const AddNewProductPage = () => {
                                     id="quantity"
                                     autoComplete="off"
                                     value={product_quantity}
-                                    onChange={(e)=>setQuantity(e.target.value)}
+                                    onChange={(e)=>setQuantity((e.target.value).trim())}
                                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                     className="input input-bordered w-full mt-1" />
                             </div>
 
                             <div className="md:col-span-2 ">
                                 <label htmlFor="netQuantity">Net Quantity</label>
-                                <input 
+                                <input
                                     type="number" 
                                     name="netQuantity"
                                     id="netQuantity"
@@ -170,6 +185,7 @@ const AddNewProductPage = () => {
                                     type="file"
                                     name="image"
                                     id="image"
+                                    accept="image/png, image/jpeg"
                                     onChange={(e)=>setImage(e.target.files[0])}
                                     className="file-input file-input-bordered w-full mt-1 " />
                             </div>

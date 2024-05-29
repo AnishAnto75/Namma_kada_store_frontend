@@ -10,12 +10,12 @@ const CartAmountFeed = () => {
 
     return (
         <div className='text-start'>
-            <div className='text-xl text-gray-600'>
+            <div className='text-xl text-lite_content'>
                 Price Details
             </div>
             <div className='divider m-0' />
             <table className='w-full'>
-                <tbody className='text-base text-gray-600'>
+                <tbody className='text-base text-lite_content'>
                     <tr className='py-1'>
                         <td>Price </td>
                         <td className='text-end'>&#8377;{totalMrp}</td>
@@ -31,7 +31,7 @@ const CartAmountFeed = () => {
                     <tr>
                         <td className='p-[5px]'> </td>
                     </tr>
-                    <tr className='text-lg border-t-[1px] text-gray-700'>
+                    <tr className='text-lg border-t-[1px] text-lite_content font-medium'>
                         <td className='py-2 '>Total Amount</td>
                         <td className='py-2 text-end'>&#8377;{totalAmount}</td>
                     </tr>

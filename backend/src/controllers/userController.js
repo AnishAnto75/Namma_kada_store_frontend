@@ -1,9 +1,9 @@
 import User from '../models/UserModel.js'
 
 export const createUser = async(req , res)=>{
-    const {name , email , sub : auth0Id} = req.body
+    const { email , sub : auth0Id} = req.body
 
-    if (!name || !email || !auth0Id){
+    if (!email || !auth0Id){
         return res.status(400).send({message : 'required all fileds'})
     }
 
@@ -31,7 +31,7 @@ export const getUser = async(req , res)=>{
     const {id : auth0Id} = req.params
 
     try {
-        const user = await User.findOne({auth0Id}).populate('orderDetails.items_in_cart')
+        const user = await User.findOne({auth0Id}).populate('orderDetails.items_in_cart.product_id').populate('orderDetails.orders')
         
         if(!user){
             return res.status(400).send({message : "user not found"})
@@ -40,6 +40,7 @@ export const getUser = async(req , res)=>{
         console.log("getUserController",user)
         return res.status(200).send({data : user , message : "user found"})
     } catch (error) {
+        console.log(error)
         return res.status(400).send({message : "get user failed"})
     }   
 }
@@ -60,9 +61,11 @@ export const updateUser = async(req , res)=>{
         const updatedUser = await User.findOneAndUpdate({auth0Id} , body , {new : true})
 
         console.log("updated user : \n",updatedUser)
+        const userDetails =await updatedUser.populate('orderDetails.items_in_cart.product_id')
 
-        return res.status(200).send({data : updatedUser , message : "User Updated sucessfully"})
+        return res.status(200).send({data : userDetails , message : "User Updated sucessfully"})
     } catch (error) {
+        console.error('updateUsercontroller' , error)
         return res.status(400).send({message : "update user failed" , error: error.message })
     }
 }

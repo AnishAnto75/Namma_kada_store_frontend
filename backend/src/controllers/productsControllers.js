@@ -2,9 +2,9 @@ import Products from "../models/ProductsModel.js"
 
 export const createProduct = async(req , res)=>{
 
-    const {product_name , _id , product_category} = req.body
+    const {product_name , _id , product_category , product_group} = req.body
 
-    if (!product_name || !_id || !product_category){
+    if (!product_name || !_id || !product_category || !product_group){
         return res.status(404).send({message : "Fill all the required fields"})
     }
 
@@ -67,8 +67,8 @@ export const updateProduct = async(req , res)=>{
 
     console.log('updateProduct',req.body)
 
-    const {product_name , _id , product_category} = req.body
-    if (!product_name || !_id , !product_category){
+    const {product_name , _id , product_category , product_group} = req.body
+    if (!product_name || !_id , !product_category || !product_group){
         return res.status(404).send({message : "Fill all the required fields"})
     }
 
@@ -124,5 +124,28 @@ export const deleteProduct = async(req , res)=>{
         return res.status(200).send({Message : "product deleted sucessfully" })
     } catch (error) {
         res.status(400).send({message : "failed to delete the product"})
+    }
+}
+
+export const searchProducts = async(req , res)=>{
+
+    try {
+        const searchTerm = req.query.searchTerm || ''
+        const limit = parseInt(req.query.limit) || 100
+        const startIndex = parseInt(req.query.startIndex) || 0
+        const pricelt = parseInt(req.query.pricelt) || 999999999
+        const pricegt = parseInt(req.query.pricegt) || 0
+        console.log(searchTerm)
+
+        const searchProducts = await Products
+            .find({product_name : {$regex : searchTerm , $options : 'i'}})
+            .where('product_price').lt(pricelt).gt(pricegt)
+            .limit(limit)
+            .skip(startIndex).sort(searchTerm)
+
+        return res.status(200).send({data : searchProducts , message : `${searchProducts.length} product found for ${searchTerm}` })
+        
+    } catch (error) {
+        return res.status(500).send({error : error.stack , messgae : "error in search product controller"})
     }
 }

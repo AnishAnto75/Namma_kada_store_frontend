@@ -10,7 +10,7 @@ const MainNav = () => {
     const {isLoading} = useAuth0()
 
     if(userStatus == 'loading' || isLoading){
-        return <span className="loading loading-spinner text-warning p-4"></span>
+        return <span className="loading loading-spinner text-second p-4"></span>
     }
 
     return (

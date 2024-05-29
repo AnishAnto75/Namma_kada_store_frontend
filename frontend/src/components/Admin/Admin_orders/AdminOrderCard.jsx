@@ -1,4 +1,3 @@
-import React from 'react'
 import OrderProductPhoto from '../../orders/OrderProductPhoto'
 import {Link} from 'react-router-dom'
 import {format} from 'date-fns'
@@ -13,7 +12,8 @@ const AdminOrderCard = ({order}) => {
     }
 
     const productImages = productDetails?.map(product => <OrderProductPhoto key={product._id} id={product.product_id} count = {count}/>)
-    const statusTime = order?.delivery_details[order?.delivery_details.length-1]?.date
+    const deliverStatus = order?.delivery_details[order.delivery_details.length -1]?.order_status?.replace(/_/g , ' ')
+    const statusTime = order?.delivery_details[0]?.date
 
     return (
         <Link to={`${order?._id}`}>
@@ -32,9 +32,9 @@ const AdminOrderCard = ({order}) => {
                 </div>
 
                 <div className='p-5 flex justify-between h-full w-full py-[60px]'>
-                    <span className='text-lg font-sans'>{order?.delivery_details[order.delivery_details.length -1]?.order_status}</span>
+                    <span className='text-lg font-sans'>{deliverStatus}</span>
                     <span className='text-lg font-sans'>&#8377;{order?.total_selling_price}</span>
-                    <span className=''>{statusTime && format(new Date(statusTime) , 'dd/MM , h:m aaa')}</span>
+                    <span className=''>{statusTime && format(new Date(statusTime) , 'd/MM/yy , h:mm aaa')}</span>
                 </div>
             </div>
         </Link>

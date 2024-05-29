@@ -17,7 +17,7 @@ const AdminProductsList = () => {
                 <table className='border-2 border-amber-500 m-2'>
                     <thead>
                         <tr className='border-b-2 border-amber-500  '>
-                            <th className='border-r-2 border-amber-500 p-3'>Product Name</th>
+                            <th className='border-r-2 border-amber-500 p-3 w-full'>Product Name</th>
                             <th className='border-amber-500 px-5'>Mrp</th>
                         </tr>
                     </thead>

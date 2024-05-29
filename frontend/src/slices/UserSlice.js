@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import {createAsyncThunk, createEntityAdapter, createSlice} from '@reduxjs/toolkit'
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -43,7 +42,7 @@ export const addToCart = createAsyncThunk('user/addToCart' , async(cartData)=>{
     const id = cartData.user_id
     const data = {product_id : cartData.product_id , no_of_product : cartData.no_of_product }
 
-    const res = await axios.post(`${CART_URL}/${id}` , data).catch((error)=>{
+    const res = await axios.post(`${CART_URL}/${id}`, data).catch((error)=>{
         console.error(error)
         throw new Error(error.response.data.error)
     })

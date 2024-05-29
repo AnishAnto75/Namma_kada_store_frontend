@@ -23,7 +23,7 @@ export const createOrders = async(req , res)=>{
         user.orderDetails.items_in_cart = []
         user.save()
 
-        return res.status(200).send({data : newOrder , message: "order created sucessfully"})
+        return res.status(200).send({data : newOrder , message: "order placed sucessfully"})
     } catch (error) {
         console.log(error)
         return res.status(400).send({error : error.message})
@@ -36,10 +36,6 @@ export const getOrders = async(req , res)=>{
     try {
         const userOrders = await Orders.find({user_id})   
 
-        if(!userOrders.length){
-            return res.status(400).send({error : "no Orders placed yet"})
-        }
-
         return res.status(200).send({data : userOrders , message : "userOrders found sucessfully" })
 
     } catch (error) {
@@ -47,18 +43,27 @@ export const getOrders = async(req , res)=>{
     }
 }
 
-export const getAllOrders = async(req , res)=>{
+export const updateOrderStatus = async(req , res)=>{
 
     try {
-        const userOrders = await Orders.find()   
+        const {id} = req.params
+        
+        const {date} = req.body
 
-        if(!userOrders.length){
-            return res.status(400).send({error : "no orders placed yet"})
+        if(!date){
+            return res.status(400).send({error : "missing attributes"})
         }
 
-        return res.status(200).send({data : userOrders , message : "userOrders found sucessfully" })
+        const order = await Orders.findOne({_id : id})
+
+        const delivery_details = {order_status : 'canceled' , date}
+        
+        order.delivery_details.push(delivery_details)
+        order.save()
+
+        return res.status(200).send({data : order , message : "order status updated sucessfully"})
 
     } catch (error) {
-        return res.status(400).send({error : error.message})
+        return res.status(400).send({error : "error in updateOrderStatus controller"})
     }
 }

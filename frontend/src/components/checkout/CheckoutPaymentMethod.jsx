@@ -78,7 +78,8 @@ const CheckoutPaymentMethod = () => {
             </div>
             <button 
                 onClick={()=>placeOrder()}
-                className='btn bg-sky-400 text-white hover:bg-sky-500 mt-3'
+                disabled = {orderStatus == 'loading'}
+                className='btn bg-third text-white hover:grayscale mt-3'
                 >Confirm order
             </button>
         </div>

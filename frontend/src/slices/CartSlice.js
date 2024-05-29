@@ -2,8 +2,6 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     products : [],
-    product_ids : [],
-    productIdAndNo : [],
     totalMrp : 0,
     totalSellingPrice : 0,
     discount : 0,
@@ -18,33 +16,23 @@ const cartSlice = createSlice({
     reducers:{
         addCartProduct : (state , action)=>{
 
-            const products = action.payload.products
             const userCart = action.payload.userCart
-
-            let cartProductsIds = []
-            userCart?.map(product=> cartProductsIds.push(product.product_id))
-
-            const cartProduct = products.filter(product => cartProductsIds.includes(product._id))
 
             let totalMrp = 0
             let totalSellingPrice = 0
-            cartProduct.map(product => {
-                const no_of_product = userCart?.find((userCart) => userCart.product_id == product._id )
-                totalMrp = totalMrp + product.product_mrp * no_of_product.no_of_product
-                totalSellingPrice = totalSellingPrice + product.product_price * no_of_product.no_of_product
+            userCart.map(product => {
+                totalMrp = totalMrp + product.product_id.product_mrp * product.no_of_product
+                totalSellingPrice = totalSellingPrice + product.product_id.product_price * product.no_of_product
             })
 
-            const productNo = cartProduct?.map(product => {
-                const no_of_product = userCart?.find((userCart) => userCart.product_id == product._id )
-                const products = [...Object.entries(product) ,  ['no_of_product' , no_of_product.no_of_product ]]
+            const productNo = userCart?.map(product => {
+                const products = [...Object.entries(product.product_id) ,  ['no_of_product' , product.no_of_product ]]
                 return products
             })
 
             const allProduct = productNo.map((products) => Object.fromEntries(products))
 
             state.products = allProduct
-            state.product_ids = cartProductsIds
-            state.productIdAndNo = userCart
             state.totalMrp = totalMrp
             state.totalSellingPrice = totalSellingPrice
             state.discount = state.totalMrp-state.totalSellingPrice
@@ -54,7 +42,6 @@ const cartSlice = createSlice({
         },
         removeCart : (state)=>{
             state.products = []
-            state.product_ids = []
             state.productIdAndNo = []
             state.totalMrp = 0
             state.totalSellingPrice = 0
@@ -69,8 +56,6 @@ const cartSlice = createSlice({
 export const {addCartProduct , removeCart} = cartSlice.actions
 
 export const selectAllCartProducts = (state)=> state.cart.products
-export const selectCartProductIds = (state)=> state.cart.product_ids
-export const selectCartIdAndNo = (state)=> state.cart.productIdAndNo
 export const selectTotalMrp = (state)=> state.cart.totalMrp
 export const selectTotalSellingPrice = (state)=> state.cart.totalSellingPrice
 export const selectCartDiscount = (state)=> state.cart.discount

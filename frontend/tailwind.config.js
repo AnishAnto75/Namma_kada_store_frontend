@@ -6,6 +6,22 @@ export default {
       ],
     theme: {
         extend: {},
+        colors: {
+            'first' : "#ffff",
+            'second' : "#FF000D",
+            'third' : "oklch(68.12% 0.2477 224.11)",
+            "black" : '#000000',
+            "white" : '#ffff',
+            "lite_content" : "#73726f",
+            "content" : "#48494a",
+            "gray" : "#f5efed",
+            "dark_gray" : "#d4d6d5", 
+            "lite_gray" : "#fafcfb",
+            "dark_third" : "#0abaf5"
+        },
+        fontFamily: {
+            'roboto': ['Roboto', 'sans-serif'],
+        }
     },
     plugins: [require("daisyui")],
     daisyui: {

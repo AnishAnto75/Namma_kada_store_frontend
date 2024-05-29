@@ -1,10 +1,11 @@
 import express from "express";
-import { createOrders, getAllOrders, getOrders } from "../controllers/ordersControllers.js";
+import { createOrders, getOrders , updateOrderStatus } from "../controllers/ordersControllers.js";
 
 const router = express.Router()
 
 router.get('/:id' , getOrders )
-router.get('/' , getAllOrders )
 router.post('/' , createOrders )
+router.put('/:id' , updateOrderStatus)
+
 
 export default router

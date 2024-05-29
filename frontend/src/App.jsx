@@ -6,8 +6,8 @@ import { Toaster } from 'react-hot-toast'
 
 import AuthCallBack from './pages/AuthCallBack'
 
-import { fetchUser, selectUser, selectUserIds} from './slices/UserSlice'
-import { fetchProducts, getProductStatus, selectAllProduct } from './slices/ProductSlice'
+import { fetchUser, selectUser} from './slices/UserSlice'
+import { fetchProducts, getProductStatus } from './slices/ProductSlice'
 import { addCartProduct } from './slices/CartSlice.js'
 
 import AdminLayout from './layouts/Admin_layout'
@@ -22,12 +22,13 @@ import AllProducts from './pages/products/AllProducts'
 import CartPage from './pages/products/CartPage'
 import CheckoutPage from './pages/CheckoutPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
-import { getOrder } from './slices/OrderSlice.js'
 import OrderViewPage from './pages/OrderViewPage.jsx'
 import AdminHomePage from './pages/adminpages/AdminHomePage.jsx'
 import AdminOrdersPage from './pages/adminpages/Orders/AdminOrdersPage.jsx'
 import AdminOrderViewPage from './pages/adminpages/Orders/AdminOrderViewPage.jsx'
 import { getAdminOrder, selectAdminOrderStatus } from './slices/AdminOrdersSlice.js'
+import SearchProductsPage from './pages/products/SearchProductsPage.jsx'
+import { addOrders } from './slices/OrderSlice.js'
 
 function App() {
 
@@ -39,13 +40,12 @@ function App() {
     const adminOrderStatus = useSelector(selectAdminOrderStatus)
 
     const userCart = useSelector(selectUser)[0]?.orderDetails?.items_in_cart
-    const products = useSelector(selectAllProduct)
-    const userId = useSelector(selectUserIds)[0]
+    const userOrders = useSelector(selectUser)[0]?.orderDetails?.orders
     
     const handleRef = useRef(true)
     const handleRef1 = useRef(true)
-    const handleRef2 = useRef(true)
     const handleRef3= useRef(true)
+    const handleRef4= useRef(true)
 
     useEffect(()=>{
         if(isAuthenticated && handleRef1.current){
@@ -57,11 +57,11 @@ function App() {
             handleRef.current = false
         }
         if(userCart){
-            dispatch(addCartProduct({userCart , products}))
+            dispatch(addCartProduct({userCart}))
         }
-        if(userId && handleRef2.current){
-            dispatch(getOrder(userId))
-            handleRef2.current = false
+        if(userOrders && handleRef4.current){
+            dispatch(addOrders(userOrders))
+            handleRef4.current = false
         }
         if(adminOrderStatus == 'idle' && handleRef3.current){
             dispatch(getAdminOrder())
@@ -79,11 +79,12 @@ function App() {
                 <Route path='checkout' element={<CheckoutPage />}/>
                 <Route path='orders' element={<OrdersPage />}/>
                 <Route path='orders/:id' element={<OrderViewPage />}/>
+                <Route path='cart' element={<CartPage />} />
 
                 <Route path='/products'>
                     <Route index element={<AllProducts />} />
                     <Route path=':id' element={<div>jhbb</div>} />
-                    <Route path='cart' element={<CartPage />} />
+                    <Route path='search' element={<SearchProductsPage />} />
                 </Route>
             </Route>        
 

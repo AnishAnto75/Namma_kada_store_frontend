@@ -42,7 +42,7 @@ const CheckoutPage = () => {
     <div className='flex flex-col md:flex-row md:p-5 p-2 gap-5 justify-center min-h-screen  '>
         <div className='md:w-3/5 w-full rounded-md space-y-1'>
 
-            <div className="collapse border rounded-lg">
+            <div className="collapse border-2 border-dark_gray rounded-lg">
                 <input type="radio" name="my-accordion-3" checked={addressSuccess == 'notOk' || 'ok'} onChange={()=>setAddressSuccess('idle')} />
                 <div className="flex collapse-title font-[arial] text-content justify-between">
                     <span className='text-xl flex gap-1'>Address {addressSuccess == 'success' ? <FaCheckCircle className='h-4 text-third mt-1'/> :''}</span>
@@ -58,7 +58,7 @@ const CheckoutPage = () => {
                 </div>
             </div>
 
-            <div className="collapse border rounded-lg">
+            <div className="collapse border-2 border-dark_gray rounded-lg">
                 <input type="radio" name="my-accordion-3" checked={addressSuccess == 'success' && orderSummarySuccess == 'idle'} onChange={()=>setOrderSummarySuccess('idle')}/> 
                 <div className="collapse-title text-xl font-[arial] text-content">
                 <span className='text-xl flex gap-1'>Order Summary {orderSummarySuccess == 'success' ? <FaCheckCircle className='h-4 text-third mt-1'/> :''}</span>
@@ -73,7 +73,7 @@ const CheckoutPage = () => {
                 </div>
             </div>
 
-            <div className="collapse border rounded-lg ">
+            <div className="collapse border-2 border-dark_gray rounded-lg ">
                 <input type="radio" name="my-accordion-3" checked={addressSuccess == 'success' && orderSummarySuccess == 'success'} onChange={()=>''} /> 
                 <div className="collapse-title text-xl font-[arial] text-content">
                     Payment method

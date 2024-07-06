@@ -15,9 +15,17 @@ const CartPage = () => {
     // no product in cart 
     if(!cartProducts?.length){
         return (
-            <div className='h-screen p-4 -mb-56'>
-                <div className='h-2/3 hero'>no products in cart</div>
+            // <div className='h-screen p-4 -mb-56'>
+            //     <div className='h-2/3 hero'>no products in cart</div>
+            // </div>
+            <div className='p-3 pl-1 w-full h-screen mb-10'> 
+            <div className='bg-white h-full flex justify-center flex-col border-2 border-dark_gray rounded'>
+                <div className='text-center text-xl font-roboto tracking-wide text-lite_content'>No products added to the cart yet  </div>
+                <div className='text-center mt-2'>
+                    <button onClick={()=>navigate('/products?groups=staples&category=all')} className='text-third underline text-lg font-roboto tracking-wide p-2 rounded'>Add items</button>
+                </div>
             </div>
+        </div>
         )
     }
     const cartProductRender = cartProducts?.map((product => <CartProductCard key={product._id} product={product}/>)) 

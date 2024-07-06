@@ -4,10 +4,13 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductStatus, selectProductById, updateProduct } from '../../../slices/ProductSlice'
 import { format } from "date-fns";
+import { selectGroupCategory, selectProductGroups } from '../../../slices/GroupCategorySlice'
 
 const AdminProductViewPage = () => {
 
     const dispatch = useDispatch()
+    const groupCategory = useSelector(selectGroupCategory)
+    const groups = useSelector(selectProductGroups)
     const {id} = useParams()
     
     const product = useSelector(state => selectProductById(state , id))
@@ -72,13 +75,18 @@ const AdminProductViewPage = () => {
         dispatch(updateProduct({id , data}))
     }
 
-    const group = [{id : 1 , name : "baby products"},{id : 2 ,name : "steel"} ]
-    const groupOptions = group.map(name =>(
+
+    const group = []
+    groups?.map((groups , index) => group.push({id : index , name : groups}))
+
+    const categories = []
+    groupCategory[product_group]?.map((category , index)=> categories.push({id : index , name : category}))
+
+    const groupOptions = group?.map(name =>(
         <option key ={name.id} value={name.name}>
             {name.name}
         </option>
     ))
-    const categories = [{id : 1 , name : "apple"},{id : 2 ,name : "orange"} ]
     const categoryOption = categories.map(name =>(
         <option key ={name.id} value={name.name}>
             {name.name}
@@ -89,7 +97,7 @@ const AdminProductViewPage = () => {
         <option key ={name.id} value={name.name}>
             {name.name}
         </option>
-    )) 
+    ))
 
   return (
     <div className='md:flex'>

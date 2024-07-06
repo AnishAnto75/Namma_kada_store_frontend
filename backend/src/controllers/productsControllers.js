@@ -149,3 +149,25 @@ export const searchProducts = async(req , res)=>{
         return res.status(500).send({error : error.stack , messgae : "error in search product controller"})
     }
 }
+
+export const groupCategoryProducts = async(req , res)=>{
+    try {
+        const product_group = req.query.group || ''
+        const category = req.query.category || ''
+
+        console.log(category)
+        if(category == 'all'){
+            const data = await Products.find({product_group})
+            console.log(data)
+            return res.status(200).send({data , message : 'products found sucessfully'})
+        }
+
+        const data = await Products.find({product_group}).where("product_category").equals(category)
+
+        return res.status(200).send({data , message : 'products found sucessfully'})
+
+    } catch (error) {
+        console.log(error)
+        return res.status(400).send({error : "error in groupCategory Contgroller"})
+    }
+}

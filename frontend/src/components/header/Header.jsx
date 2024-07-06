@@ -4,13 +4,11 @@ import SearchProductComponent from '../utils/SearchProductComponent'
 const Header = () => {
 
     return (
-        <div className='flex justify-between h-14 px-5 hero max-w-screen bg-first border-b-2 border-second '>
-            <Link to={'/'} className='text-3xl text font-bold m-1 text-second font-roboto'>
+        <div className='flex justify-between h-14 px-5 hero max-w-screen bg-first border-b-2 border-third z-50 '>
+            <Link to={'/'} className='text-3xl text-third ml-6 font-serif font-bold'>
                 {import.meta.env.VITE_APP_TITLE}
             </Link>
-            <div>
-                <SearchProductComponent />
-            </div>
+            <SearchProductComponent />
             <MainNav />
         </div>
     )

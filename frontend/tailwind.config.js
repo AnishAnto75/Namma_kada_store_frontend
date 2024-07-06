@@ -17,10 +17,12 @@ export default {
             "gray" : "#f5efed",
             "dark_gray" : "#d4d6d5", 
             "lite_gray" : "#fafcfb",
-            "dark_third" : "#0abaf5"
+            "dark_third" : "#0abaf5",
+            "lite_blue" : "#f0f4fc"
         },
         fontFamily: {
             'roboto': ['Roboto', 'sans-serif'],
+            "serif" : ['serif']
         }
     },
     plugins: [require("daisyui")],

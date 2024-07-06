@@ -16,10 +16,10 @@ const OrderProductCard = ({product}) => {
                     className='h-full w-full object-contain'
                 />
             </div>
-            <div className='w-full px-3 h-full py-4'>
-                <div className='font-[arial] text-content'>{product.product_name}</div>    
-                <div className='font-[arial] text-content pt-1'>{product.no_of_product} Quantity</div>
-                <div className='font-[arial] text-content pt-1'>&#8377;{product.product_price}</div>           
+            <div className='w-full px-3 h-full pt-4'>
+                <div className='font-[arial] line-clamp-1 text-content'>{product.product_name}</div>    
+                <div className='text-content pt-1.5 line-clamp-1'>{product.no_of_product} Quantity</div>
+                <div className='font-[arial] text-[15px] line-clamp-1 text-content pt-1.5'>&#8377;{product.product_price}</div>           
             </div>
     </Link>
     )

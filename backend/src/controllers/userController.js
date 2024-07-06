@@ -14,14 +14,14 @@ export const createUser = async(req , res)=>{
             return res.status(200).send({message : "Loged In Sucessfully" })
         }
 
-        const newUser = new User({name , email , auth0Id})
+        const newUser = new User({email , auth0Id})
         await newUser.save()
 
         console.log('User created sucessfully')
         return res.status(201).send({message : "Signed Up Sucessfully" })
 
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(400).send({message: error.message})
     }
 }

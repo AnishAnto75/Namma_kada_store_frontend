@@ -21,29 +21,31 @@ const UserNav = () => {
                     Log in
                 </button>
                 ):(
-                <div className='flex justify-end space-x-2'>
+                <div className='flex justify-end space-x-2 '>
 
                     <CartButton />
 
                     <div className="dropdown dropdown-hover dropdown-end">
-                            <div tabIndex={0} role="button" className="btn btn-ghost flex hover:bg-white hover:shadow-inner hover:shadow-second">
-                                <LuUserCircle className='text-2xl text-second'/>
-                                <span className='text-base text-second font-roboto'>{user?.name ? user.name : 'User'}</span>
-                            </div>
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content z-[1] shadow-lg bg-first rounded-xl w-full min-w-28 gap-1">
-                                <li>
-                                    <Link to={'/user-profile'} className='text-white bg-second hover:shadow-inner hover:shadow-second hover:bg-white hover:text-second hover:font-medium p-2 w-full justify-center'>User Profile</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/orders'} className='text-white bg-second hover:shadow-inner hover:shadow-second hover:bg-white hover:text-second hover:font-medium p-2 w-full justify-center'>Orders</Link>
-                                </li>
-                                <li className='text-third hero'>
-                                    <button onClick={()=>logout()} className='text-white bg-second hover:shadow-inner hover:shadow-second hover:bg-white hover:text-second hover:font-medium p-2 w-full justify-center'>
-                                        <CiLogout className='text-base mt-1 '/>Log out
-                                    </button>
-                                </li>
-                            </ul>
+                        <div tabIndex={0} role="button" className="btn btn-ghost flex gap-1 hover:bg-transparent hover:shadow text-content hover:text-third">
+                            <LuUserCircle className='text-2xl'/>
+                            <span className='text-base'>{user?.name ? user.name.split(' ')[0] : 'User'}</span>
                         </div>
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content z-50 border-2 border-gray bg-first rounded-xl w-full min-w-28 ">
+                            <li>
+                                <Link to={'/user-profile'} className='text-content font-robot p-2 w-full justify-center hover:underline hover:underline-offset-2 hover:bg-transparent hover:text-third'>User Profile</Link>
+                            </li>
+                            <li>
+                                <Link to={'/orders'} className='text-content font-robot p-2 w-full justify-center hover:underline hover:underline-offset-2 hover:bg-transparent hover:text-third'>
+                                    Orders
+                                </Link>
+                            </li>
+                            <li className='text-third hero'>
+                                <button onClick={()=>logout()} className='text-content font-robot p-2 w-full justify-center hover:underline hover:underline-offset-2 hover:bg-transparent hover:text-third'>
+                                    <CiLogout className='text-base mt-1 '/>Log out
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 ) 
             }

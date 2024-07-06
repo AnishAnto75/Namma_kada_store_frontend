@@ -1,10 +1,14 @@
 import { useState } from "react"
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import {addNewProduct} from '../../../slices/ProductSlice.js'
+import { selectGroupCategory, selectProductGroups } from "../../../slices/GroupCategorySlice.js"
 
 const AddNewProductPage = () => {
 
     const dispatch = useDispatch()
+
+    const groupCategory = useSelector(selectGroupCategory)
+    const groups = useSelector(selectProductGroups)
 
     const [product_group , setGroup ] = useState('')
     const [product_category , setCategory ] = useState('')
@@ -39,13 +43,17 @@ const AddNewProductPage = () => {
 
     const canSave = true
 
-    const group = [{id : 1 , name : "baby products"},{id : 2 ,name : "steel"} ]
+    const group = []
+    groups?.map((groups , index) => group.push({id : index , name : groups}))
+
+    const categories = []
+    groupCategory[product_group]?.map((category , index)=> categories.push({id : index , name : category}))
+
     const groupOptions = group.map(name =>(
         <option key ={name.id} value={name.name}>
             {name.name}
         </option>
     ))
-    const categories = [{id : 1 , name : "apple"},{id : 2 ,name : "orange"} ]
     const categoryOption = categories.map(name =>(
         <option key ={name.id} value={name.name}>
             {name.name}
@@ -70,7 +78,7 @@ const AddNewProductPage = () => {
                             <div className="md:col-span-2">
                                 <label htmlFor="product_category">Group</label>
                                 <select name="product_category" value={product_group} onChange={(e)=> setGroup(e.target.value)} required className="select select-bordered w-full mt-1 ">
-                                    <option disabled value='' />
+                                    <option disabled defaultChecked value='' />
                                     {groupOptions}
                                 </select>
                             </div>

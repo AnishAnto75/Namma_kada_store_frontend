@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { addToCart , selectUserIds } from '../../slices/UserSlice'
+import { addToCart , getUserStatus, selectUserIds } from '../../slices/UserSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {useAuth0} from '@auth0/auth0-react'
 import { selectCartProductById } from '../../slices/CartSlice'
@@ -11,6 +11,7 @@ const AddToCartButton = ({product_id}) => {
     const dispatch = useDispatch()
     const user_id = useSelector(selectUserIds)[0]
     const data = useSelector(state => selectCartProductById(state , product_id))
+
     const { loginWithRedirect } = useAuth0()
 
     const [no_of_product , set_no_of_product] = useState(0)
@@ -42,10 +43,10 @@ const AddToCartButton = ({product_id}) => {
   return (
     <>
         {data?
-        <div className="flex justify-between h-11 rounded-md border border-dark_gray w-full">
+        <div className="flex justify-between h-11 rounded-sm border border-dark_gray w-full">
             <button
                 onClick={()=>reduceProduct()}
-                className="w-16 rounded-s-md bg-lite_gray text-third border-r border-dark_gray" 
+                className="w-16 rounded-s-sm bg-lite_gray text-third border-r border-dark_gray" 
                 >
                 <FaMinus className='hero p-0.5' />
             </button>
@@ -54,11 +55,11 @@ const AddToCartButton = ({product_id}) => {
                     type="number" 
                     value={no_of_product}
                     onChange={(e)=>set_no_of_product(e.target.value)} 
-                    className='h-[41px] w-full text-center hide-arrow outline-none' />
+                    className='h-[42.5px] w-full text-center hide-arrow outline-none' />
             </form>
             <button
                 onClick={()=>increaseProduct()}
-                className="w-16 rounded-e-md bg-lite_gray text-third border-l border-dark_gray" 
+                className="w-16 rounded-e-sm bg-lite_gray text-third border-l border-dark_gray" 
                 >
                 <FaPlus className='hero p-0.5' />
             </button>
@@ -67,7 +68,7 @@ const AddToCartButton = ({product_id}) => {
         user_id? 
             <button 
                 onClick={()=>add_to_cart()}
-                className='h-11 w-full bg-white rounded text-third font-medium hover:font-[cursive] border border-dark_gray'>
+                className='h-11 w-full bg-white rounded-sm text-third text-sm font-[arial] tracking-wider border border-dark_gray'>
                 Add to cart
             </button>
         :
